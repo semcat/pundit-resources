@@ -26,8 +26,8 @@ RSpec.describe Pundit::ResourceController do
       JSONAPI.configuration
     end
 
-    def whitelist
-      config.exception_class_whitelist
+    def allowlist
+      config.exception_class_allowlist
     end
 
     def include_module
@@ -36,20 +36,20 @@ RSpec.describe Pundit::ResourceController do
 
     before do
       # Ensure not already there from having been added previously
-      config.exception_class_whitelist -= [Pundit::NotAuthorizedError]
+      config.exception_class_allowlist -= [Pundit::NotAuthorizedError]
 
       # Add a random value that the module couldn't guess to simulate
       # customised defaults in an application
-      whitelist << SecureRandom.hex
+      allowlist << SecureRandom.hex
     end
 
-    it "adds Pundit::NotAuthorizedError to exception class whitelist when" do
-      before = whitelist.dup
+    it "adds Pundit::NotAuthorizedError to exception class allowlist when" do
+      before = allowlist.dup
       include_module
-      expect(whitelist).to eq(before + [Pundit::NotAuthorizedError])
+      expect(allowlist).to eq(before + [Pundit::NotAuthorizedError])
 
       # Should not be added more than once
-      expect { include_module }.not_to change { whitelist.count }
+      expect { include_module }.not_to change { allowlist.count }
     end
   end
 end

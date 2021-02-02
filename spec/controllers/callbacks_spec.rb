@@ -17,8 +17,8 @@ RSpec.describe UsersController, type: :controller do
 
   def self.let_temporary_exception_class(name)
     let(name) { Class.new(StandardError) }
-    before { JSONAPI.configuration.exception_class_whitelist.push error }
-    after { JSONAPI.configuration.exception_class_whitelist.pop }
+    before { JSONAPI.configuration.exception_class_allowlist.push error }
+    after { JSONAPI.configuration.exception_class_allowlist.pop }
   end
 
   context "before authorizing" do
